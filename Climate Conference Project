@@ -1,0 +1,95 @@
+Climate Conference Project
+Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
+
+
+--LEFT JOIN: Select vips and which panels they are presenting at.
+
+SELECT vips.first_name
+, vips.last_name
+, vips.assoc_type
+, events.event_name
+FROM events
+LEFT JOIN vips
+ON events.event_id = vips.event
+WHERE event_type = 'Panel'
+;
+
+--INNER JOIN: Determine where the vips will be staying at to coordinate transportation to and from the events of the conference. 
+
+SELECT vips.member_id
+, vips.last_name
+, vips.first_name
+, hotels.address
+FROM vips
+INNER JOIN reservations
+ON vips.member_id = reservations.member_id
+INNER JOIN hotels
+ON reservations.hotel = hotels.hotel_id
+ORDER BY hotels.address;
+
+-- Multiple JOINs: Determine the events, what type they are, who will be speaking, and if they will be attending the thank you dinner.
+
+SELECT vips.last_name
+, vips.first_name
+, events.event_name
+, events.event_type
+, CASE WHEN reservations.dinner_rsvp = 1
+THEN 'Yes'
+WHEN reservations.dinner_rsvp = 0
+THEN 'No'
+ELSE 'No RSVP'
+END AS 'Dinner_RSVP'
+FROM reservations
+LEFT JOIN vips
+ON reservations.member_id = vips.member_id
+JOIN events
+ON events.event_id = vips.event
+ORDER BY vips.last_name
+;
+
+--SELF JOIN: Determine which vips will be providing feedback, how long they have been members, and the corresponding VIPs who recieve their feedback.
+
+SELECT speaker.last_name AS Speaker_last_name
+, speaker.first_name AS Speaker_first_name
+, speaker.member_since 
+, reviewer.last_name AS Feedback_provider_last
+, reviewer.first_name AS Feedback_provider_first
+, reviewer.member_since 
+FROM vips AS reviewer
+JOIN vips AS speaker
+ON reviewer.provides_feedback_to = speaker.member_id
+ORDER BY reviewer.last_name;
+
+--Determine which VIPs will be attending the welcome party and thank you dinner, as well as the RSVP still to be recieved. 
+
+SELECT vips.last_name
+, vips.first_name,
+CASE WHEN reservations.welcome_rsvp = 1
+THEN 'Yes'
+WHEN reservations.welcome_rsvp = 0
+THEN 'Not Attending'
+ELSE 'No RSVP'
+END AS party_rsvp,
+CASE WHEN reservations.dinner_rsvp = 1
+THEN 'Yes'
+WHEN reservations.dinner_rsvp = 0
+THEN 'Not Attending'
+ELSE 'No RSVP'
+END AS dinner_rsvp
+FROM reservations
+FULL JOIN vips
+ON reservations.member_id = vips.member_id
+;
+
+--Determine which speakers are attending from the government and who the corresponding VIP reviewing them is associated with, as well as their association type.
+
+SELECT speaker.last_name AS speaker_last_name
+, speaker.assoc_type AS Speaker_association
+, speaker.association 
+, reviewer.assoc_type AS Feedback_provider_association
+, reviewer.association
+FROM vips AS reviewer
+JOIN vips AS speaker
+ON reviewer.provides_feedback_to = speaker.member_id
+WHERE speaker.assoc_type = 'government'
+ORDER BY speaker.last_name;
