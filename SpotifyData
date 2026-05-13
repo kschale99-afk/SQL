@@ -29,27 +29,35 @@ time_signature integer NOT NULL
 --Next, I explored the data using the following SQL. 
 
 --First, I determined who are the top 10 artists based on popularity.
-SELECT MAX(popularity), artist_name
+SELECT MAX(popularity)
+, artist_name
 FROM spotifydata
 GROUP BY artist_name
 ORDER BY popularity desc
 LIMIT 10;
 
 --Then, what is the average danceability for the 10 most popular songs.
-SELECT AVG(danceability), track_name, artist_name
+SELECT AVG(danceability)
+, track_name
+, artist_name
 FROM spotifydata
 GROUP BY danceability
 ORDER BY AVG(danceability) desc
 LIMIT 10;
 
 --Then, what is the average danceability by artist.
-SELECT artist_name, AVG(danceability)
+SELECT artist_name
+, AVG(danceability)
 FROM spotifydata
 GROUP BY artist_name
 ORDER BY artist_name;
 
 --Then I determined what are the top 20 songs, with both a danceability and energy rating over 0.60.
-SELECT popularity, danceability, energy, artist_name, track_name
+SELECT popularity
+, danceability
+, energy
+, artist_name
+, track_name
 FROM spotifydata
 GROUP BY artist_name, track_name
 HAVING danceability > 0.60 AND energy > 0.60
@@ -57,7 +65,9 @@ ORDER BY popularity desc
 LIMIT 20;
 
 --Then, I determined what artist released the longest song.
-SELECT MAX(duration_ms), artist_name, track_name
+SELECT MAX(duration_ms)
+, artist_name
+, track_name
 FROM spotifydata
 GROUP BY track_name
 ORDER BY duration_ms desc
@@ -65,7 +75,8 @@ LIMIT 1;
 
 
 --I determined which artists have more than one song in the data I captured.
-SELECT artist_name, COUNT(track_name)
+SELECT artist_name
+, COUNT(track_name)
 FROM spotifydata
 GROUP BY artist_name 
 HAVING COUNT(track_name) > 1
