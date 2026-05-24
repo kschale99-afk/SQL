@@ -1,3 +1,27 @@
+--In this project, I downloaded Shopify data from Kaggle. 
+--Then, I created a table to insert it into.
+--Finally, I performed analytics on the data using SQL.
+
+CREATE TABLE ShopifyData (
+    id               INTEGER        PRIMARY KEY,
+    order_date       DATE           NOT NULL,
+    customer_id      INTEGER        NOT NULL,
+    product_id       INTEGER        NOT NULL,
+    product_category VARCHAR        NOT NULL,
+    product_price    DECIMAL (4, 3) NOT NULL,
+    discount_percent INTEGER        NOT NULL,
+    quantity         INTEGER        NOT NULL,
+    customer_country VARCHAR        NOT NULL,
+    traffic_source   VARCHAR        NOT NULL,
+    payment_method   VARCHAR        NOT NULL,
+    shipping_cost    DECIMAL (5, 3) NOT NULL,
+    rating           DECIMAL (4, 3) NOT NULL,
+    is_returned      BOOLEAN        NOT NULL,
+    discounted_price DECIMAL (5, 3) NOT NULL,
+    revenue          DECIMAL (6, 3) NOT NULL,
+    profit           DECIMAL (6, 3) NOT NULL
+);
+
 SELECT * FROM BIT_DB.ShopifyData LIMIT 10;
 
 
