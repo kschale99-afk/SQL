@@ -1,0 +1,118 @@
+SELECT * FROM BIT_DB.ShopifyData LIMIT 10;
+
+
+--How much revenue is generated from electronics?
+SELECT SUM(revenue)
+, product_category
+FROM BIT_DB.ShopifyData
+WHERE product_category = "Electronics"
+GROUP BY product_category;
+
+--What is the product number of the highest profit item?
+SELECT product_id
+, MAX(profit)
+FROM BIT_DB.ShopifyData
+WHERE product_category = "Electronics"
+GROUP BY product_id 
+ORDER BY MAX(profit) desc;
+
+--During Q4 2024, how many items in each category were returned?
+SELECT COUNT(is_returned) as "returns"
+, product_category
+FROM BIT_DB.ShopifyData
+WHERE is_returned != 0
+AND order_date BETWEEN "2024-10-31" AND "2024-12-31"
+GROUP BY  product_category;
+
+--For Q1?
+SELECT COUNT(is_returned) as "returns"
+, product_category 
+FROM BIT_DB.ShopifyData
+WHERE is_returned != 0
+AND order_date BETWEEN "2025-01-01" AND "2025-03-31"
+GROUP BY product_category;
+
+--What traffic source drives the most sales?
+SELECT traffic_source
+, SUM(revenue)
+FROM BIT_DB.ShopifyData
+GROUP BY traffic_source
+ORDER BY revenue desc;
+
+--Which country generates the most revenue?
+SELECT customer_country
+, ROUND(SUM(revenue), 0)
+FROM BIT_DB.ShopifyData
+GROUP BY customer_country
+ORDER BY SUM(revenue) desc;
+
+--What are the most discounted items?
+SELECT product_id
+, product_category
+, MIN(discounted_price)
+FROM BIT_DB.ShopifyData
+GROUP BY product_category
+;
+
+--How many of the most discounted items are returned?
+SELECT COUNT(is_returned) as returns
+, product_id
+, product_category
+FROM BIT_DB.ShopifyData
+WHERE product_id IN 
+( 5227, 7668, 5459, 2199, 3600, 6480, 6546
+)
+AND is_returned != 0
+GROUP BY product_id;
+
+--What is the product_id of the most returned item?
+SELECT COUNT(is_returned)
+, product_id
+, product_category
+FROM BIT_DB.ShopifyData
+WHERE is_returned != 0
+GROUP BY product_id
+ORDER BY COUNT(is_returned) desc;
+
+--What payment method drove the most sales?
+SELECT SUM(revenue) as total_sales
+, payment_method
+FROM BIT_DB.ShopifyData
+GROUP BY payment_method
+ORDER BY SUM(revenue) asc;
+
+--How many customers are in the USA?
+SELECT  COUNT(customer_country)
+FROM BIT_DB.ShopifyData
+WHERE customer_country = "USA";
+
+--What is the product price, discount percent, discounted price, and shipping cost for orders within the USA?
+SELECT product_price
+, discount_percent
+, discounted_price
+, shipping_cost
+FROM BIT_DB.ShopifyData;
+
+--When the discount percent is 40 or higher, does it offset the shipping cost?
+SELECT product_price
+, (product_price - discounted_price) as money_saved
+, shipping_cost
+, CASE WHEN (product_price - discounted_price) > shipping_cost
+THEN "Yes"
+ELSE "No"
+END AS "Discount_worth_it"
+FROM BIT_DB.ShopifyData
+WHERE discount_percent >= 40
+AND customer_country = "USA";
+
+--How many products have been discounted?
+SELECT COUNT(DISTINCT product_id)
+FROM BIT_DB.ShopifyData
+WHERE discount_percent >=  0;
+
+--What products are more likely to be bought in bulk?
+SELECT  distinct product_id
+, quantity
+FROM BIT_DB.ShopifyData
+WHERE quantity >= 2
+ORDER BY quantity desc;
