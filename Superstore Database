@@ -28,27 +28,27 @@ VALUES
     
 #For this project I used SQL to query the Superstore database and get information about items sold at the store and their price. 
 
-#Use SELECT statement to order items by price
+#What are the items by price?
 SELECT item_name, price
 FROM superstore
 ORDER BY price desc;
 
-#Use SELECT statement to acess the items and prices of the highest rated items sold at the store
+#What are the items and prices of the highest rated items sold at the store?
 SELECT item_name, average_rating, price
 FROM superstore
 WHERE average_rating > 4.5
 ORDER BY average_rating;
 
-#Show a statistic about the average price and ratings of items sold at the store
+#What is the average price and ratings of items sold at the store?
 SELECT AVG(price), AVG(average_rating)
 FROM superstore;
 
-#Show a statistic about the price for items in the category of "Kitchen Supplies"
+#What is the avergae price for items in the category of "Kitchen Supplies"?
 SELECT AVG(price) As average_kitchen_price
 FROM superstore
 WHERE category = "Kitchen Supplies";
 
-#Show a statistic of 
+#What is the average price of an appliance?
 SELECT AVG(price) AS average_appliance_price
 FROM superstore
 WHERE category = "Appliances";
