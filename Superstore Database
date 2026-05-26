@@ -26,29 +26,40 @@ VALUES
     (15, 'Cozy Throw Blanket', 'Furnishings', 24.99, 100, 4.2);
     
     
-#For this project I used SQL to query the Superstore database and get information about items sold at the store and their price. 
+--For this project I used SQL to query the Superstore database and get information about items sold at the store and their price. 
 
-#What are the items by price?
-SELECT item_name, price
+--What are the items by price?
+SELECT item_name
+, price
 FROM superstore
 ORDER BY price desc;
 
-#What are the items and prices of the highest rated items sold at the store?
-SELECT item_name, average_rating, price
+--What are the items and prices of the highest rated items sold at the store?
+SELECT item_name
+, average_rating
+, price
 FROM superstore
 WHERE average_rating > 4.5
 ORDER BY average_rating;
 
-#What is the average price and ratings of items sold at the store?
-SELECT AVG(price), AVG(average_rating)
+--What is the average price and ratings of items sold at the store?
+SELECT AVG(price)
+, AVG(average_rating)
 FROM superstore;
 
-#What is the avergae price for items in the category of "Kitchen Supplies"?
+--What is the average price for items in the category of "Kitchen Supplies"?
 SELECT AVG(price) As average_kitchen_price
 FROM superstore
 WHERE category = "Kitchen Supplies";
 
-#What is the average price of an appliance?
+--What is the average price of an appliance?
 SELECT AVG(price) AS average_appliance_price
 FROM superstore
 WHERE category = "Appliances";
+
+--What is the price and current stock quantity of air purifiers?
+SELECT item_name
+, price
+,  stock_quantity
+FROM BIT_DB.superstore
+WHERE item_name = "Air Purifier";
