@@ -2,7 +2,7 @@
 
 --I used SQL to perform the following queries:
 
---Show Customers (their full names, customer ID, and country) who are not in the US. (Hint: != or <> can be used to say "is not equal to").
+--Which customers are not in the US?
 
 SELECT firstname
 , lastname
@@ -11,7 +11,7 @@ SELECT firstname
 FROM chinook.customers
 WHERE country <> 'US';
 
---Show only the Customers from Brazil.
+--Which customers are from Brazil?
 
 SELECT firstname
 , lastname
@@ -20,7 +20,7 @@ SELECT firstname
 FROM chinook.customers
 WHERE country = 'Brazil';
 
---Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
+--What are the invoices of customers who are from Brazil?
 
 SELECT customers.FirstName
 , customers.LastName
@@ -33,18 +33,18 @@ ON customers.CustomerId = invoices.CustomerId
 WHERE invoices.BillingCountry = 'Brazil';
 
 
---Show the Employees who are Sales Agents.
+--Which Employees are Sales Agents?
 
 SELECT *
 FROM employees
 WHERE title = 'Sales Support Agent';
 
---Find a unique/distinct list of billing countries from the Invoice table.
+--What are the unique/distinct list of billing countries from the Invoice table?
 
 SELECT distinct billingcountry
 FROM invoices;
 
---Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
+--What are the invoices associated with each Sales Agent?
 
 SELECT employees.FirstName
 , employees.LastName
@@ -58,7 +58,7 @@ FROM employees
 ;
 
 
---Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
+--What are the invoice totals, customer names, countries, and sales agent names for all invoices and customers?
 
 SELECT invoices.Total AS InvoiceTotal
 , customers.FirstName AS CustFirstName
@@ -73,7 +73,7 @@ FROM employees
         ON customers.CustomerId = invoices.CustomerId
 ORDER BY customers.LastName;
 
---How many Invoices were there in 2009?
+--How many invoices were there in 2009?
 
 SELECT COUNT(invoiceid)
 FROM invoices
@@ -87,7 +87,7 @@ FROM invoices
 WHERE invoicedate LIKE '2009%';
 
 
---Write a query that includes the purchased track name with each invoice line ID.
+--What is the purchased track name with each invoice line ID?
 
 SELECT invoice_items.InvoiceLineId
 , tracks.name
@@ -97,7 +97,7 @@ FROM invoice_items
 ;
 
 
---Write a query that includes the purchased track name AND artist name with each invoice line ID.
+--What is both the purchased track name and artist name with each invoice line ID?
 
 SELECT invoice_items.InvoiceLineId
 , tracks.name as 'SongName'
@@ -111,7 +111,7 @@ FROM invoice_items
             ON artists.ArtistId = albums.ArtistId
 ;
 
---Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
+--What are all the tracks, album names, media types, and genre?
 
 SELECT tracks.Name as SongName
 , albums.Title as AlbumName
@@ -127,7 +127,7 @@ FROM tracks
 ;
 
 
---Show the total sales made by each sales agent.
+--What are the total sales made by each sales agent?
 
 SELECT SUM(invoices.Total)
 , employees.LastName
