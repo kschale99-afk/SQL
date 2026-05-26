@@ -2,7 +2,7 @@ Climate Conference Project
 Database: https://www.db-fiddle.com/f/pxMci1sLL945KHKYvpe9W6/1
 
 
---LEFT JOIN: Select vips and which panels they are presenting at.
+--First, I selected for the vips and which panels they are presenting at.
 
 SELECT vips.first_name
 , vips.last_name
@@ -14,7 +14,7 @@ ON events.event_id = vips.event
 WHERE event_type = 'Panel'
 ;
 
---INNER JOIN: Determine where the vips will be staying at to coordinate transportation to and from the events of the conference. 
+--Then, I determined where the vips will be staying at to coordinate transportation to and from the events of the conference. 
 
 SELECT vips.member_id
 , vips.last_name
@@ -27,7 +27,7 @@ INNER JOIN hotels
 ON reservations.hotel = hotels.hotel_id
 ORDER BY hotels.address;
 
--- Multiple JOINs: Determine the events, what type they are, who will be speaking, and if they will be attending the thank you dinner.
+-- Next, I determined the events, what type they are, who will be speaking, and if they will be attending the thank you dinner.
 
 SELECT vips.last_name
 , vips.first_name
@@ -47,7 +47,7 @@ ON events.event_id = vips.event
 ORDER BY vips.last_name
 ;
 
---SELF JOIN: Determine which vips will be providing feedback, how long they have been members, and the corresponding VIPs who recieve their feedback.
+--I selected which vips will be providing feedback, how long they have been members, and the corresponding VIPs who recieve their feedback.
 
 SELECT speaker.last_name AS Speaker_last_name
 , speaker.first_name AS Speaker_first_name
@@ -60,7 +60,7 @@ JOIN vips AS speaker
 ON reviewer.provides_feedback_to = speaker.member_id
 ORDER BY reviewer.last_name;
 
---Determine which VIPs will be attending the welcome party and thank you dinner, as well as the RSVP still to be recieved. 
+--I determined which VIPs will be attending both the welcome party and thank you dinner, as well as the RSVPs still to be recieved. 
 
 SELECT vips.last_name
 , vips.first_name,
@@ -81,7 +81,7 @@ FULL JOIN vips
 ON reservations.member_id = vips.member_id
 ;
 
---Determine which speakers are attending from the government and who the corresponding VIP reviewing them is associated with, as well as their association type.
+--I also determined which speakers are attending from the government and who the corresponding VIP reviewing them is associated with, as well as their association type.
 
 SELECT speaker.last_name AS speaker_last_name
 , speaker.assoc_type AS Speaker_association
